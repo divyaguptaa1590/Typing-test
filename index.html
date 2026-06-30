@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TypeRush — Speed Typing Test</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <div class="page" id="homePage">
+    <div class="bg-blobs">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="blob b3"></div>
+    </div>
+    <div class="home-wrap">
+      <div class="logo-area">
+        <div class="logo-icon">⌨</div>
+        <h1 class="logo-name">Type<span>Rush</span></h1>
+        <p class="logo-tagline">How fast are your fingers?</p>
+      </div>
+
+      <div class="home-grid">
+        <div class="home-main">
+          <div class="config-card">
+            <div class="config-section">
+              <p class="config-label">Duration</p>
+              <div class="pill-group" id="durationGroup">
+                <button class="pill" data-val="15">15s</button>
+                <button class="pill active" data-val="30">30s</button>
+                <button class="pill" data-val="60">60s</button>
+                <button class="pill" data-val="120">120s</button>
+              </div>
+            </div>
+            <div class="config-section">
+              <p class="config-label">Difficulty</p>
+              <div class="pill-group" id="diffGroup">
+                <button class="pill active" data-val="easy">Easy</button>
+                <button class="pill" data-val="medium">Medium</button>
+                <button class="pill" data-val="hard">Hard</button>
+              </div>
+            </div>
+            <button class="start-btn" id="startBtn">
+              <span>Start Test</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+
+          <div class="home-stats">
+            <div class="hs-item"><span class="hs-num" id="hsWpm">--</span><span class="hs-lbl">Best WPM</span></div>
+            <div class="hs-div"></div>
+            <div class="hs-item"><span class="hs-num" id="hsAcc">--</span><span class="hs-lbl">Best Acc%</span></div>
+            <div class="hs-div"></div>
+            <div class="hs-item"><span class="hs-num" id="hsTests">0</span><span class="hs-lbl">Tests Done</span></div>
+          </div>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-head">
+            <h2>Profile</h2>
+            <p>Track your recent sessions and progress.</p>
+          </div>
+
+          <div class="profile-grid">
+            <div class="profile-panel">
+              <div class="panel-title">Recent History</div>
+              <ul class="history-list" id="historyList">
+                <li class="history-empty">No tests yet. Finish one to start tracking your progress.</li>
+              </ul>
+            </div>
+
+            <div class="profile-panel">
+              <div class="panel-title">Improvement</div>
+              <div class="improvement-box" id="improvementBox">
+                <div class="improvement-pill" id="improvementBadge">Start practicing</div>
+                <p id="improvementText">Complete a few tests to see whether your speed is improving.</p>
+                <div class="improvement-meta">
+                  <span id="improvementDelta">0 WPM</span>
+                  <span id="improvementLabel">No trend yet</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page hidden" id="testPage">
+    <div class="bg-blobs">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+    </div>
+    <div class="test-wrap">
+      <div class="test-header">
+        <button class="icon-btn" id="backBtn" title="Back to home">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="logo-sm">TypeRush</div>
+        <div class="diff-badge" id="diffBadge">Easy</div>
+      </div>
+
+      <div class="live-stats">
+        <div class="ls-block">
+          <span class="ls-val" id="liveWpm">0</span>
+          <span class="ls-key">WPM</span>
+        </div>
+        <div class="ls-block accent">
+          <span class="ls-val" id="liveTimer">30</span>
+          <span class="ls-key">SEC</span>
+        </div>
+        <div class="ls-block">
+          <span class="ls-val" id="liveAcc">100</span>
+          <span class="ls-key">ACC%</span>
+        </div>
+        <div class="ls-block">
+          <span class="ls-val" id="liveChars">0</span>
+          <span class="ls-key">CHARS</span>
+        </div>
+      </div>
+
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressFill"></div>
+      </div>
+
+      <div class="text-display" id="textDisplay"></div>
+
+      <textarea
+        class="type-input"
+        id="typeInput"
+        placeholder="Start typing here to begin the test..."
+        spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+      ></textarea>
+
+      <div class="test-footer">
+        <button class="ghost-btn" id="restartBtn">↺ Restart</button>
+        <p class="hint-text">Start typing to begin the timer</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page hidden" id="resultPage">
+    <div class="bg-blobs">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="blob b3"></div>
+    </div>
+    <div class="result-wrap">
+      <div class="rank-badge" id="rankBadge">
+        <span class="rank-emoji" id="rankEmoji">🚀</span>
+        <span class="rank-label" id="rankLabel">Speed Demon</span>
+      </div>
+
+      <div class="result-hero">
+        <div class="result-wpm-ring">
+          <svg class="ring-svg" viewBox="0 0 120 120">
+            <circle class="ring-bg" cx="60" cy="60" r="52"/>
+            <circle class="ring-fg" id="ringFg" cx="60" cy="60" r="52" stroke-dasharray="327" stroke-dashoffset="327"/>
+          </svg>
+          <div class="ring-center">
+            <span class="ring-num" id="resultWpm">0</span>
+            <span class="ring-lbl">WPM</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-grid">
+        <div class="result-card">
+          <span class="rc-icon">🎯</span>
+          <span class="rc-val" id="resultAcc">0%</span>
+          <span class="rc-key">Accuracy</span>
+        </div>
+        <div class="result-card">
+          <span class="rc-icon">✅</span>
+          <span class="rc-val" id="resultCorrect">0</span>
+          <span class="rc-key">Correct Words</span>
+        </div>
+        <div class="result-card">
+          <span class="rc-icon">❌</span>
+          <span class="rc-val" id="resultWrong">0</span>
+          <span class="rc-key">Mistakes</span>
+        </div>
+        <div class="result-card">
+          <span class="rc-icon">⌨️</span>
+          <span class="rc-val" id="resultKeystrokes">0</span>
+          <span class="rc-key">Keystrokes</span>
+        </div>
+        <div class="result-card">
+          <span class="rc-icon">⏱</span>
+          <span class="rc-val" id="resultTime">0s</span>
+          <span class="rc-key">Time Taken</span>
+        </div>
+        <div class="result-card">
+          <span class="rc-icon">📈</span>
+          <span class="rc-val" id="resultRaw">0</span>
+          <span class="rc-key">Raw WPM</span>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button class="start-btn" id="tryAgainBtn">Try Again</button>
+        <button class="ghost-btn" id="homeBtn">← Home</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
